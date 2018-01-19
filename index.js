@@ -389,6 +389,7 @@ client.on("message", function(message){
             .addField("Avatar URL :", user.avatarURL, false)
             .addField("Client created on: ", user.createdAt, false)
             .addField("Joined  guild on:", message.guild.member(user).joinedAt, false)
+            .addField("Is a bot?" ,user.bot ,false)
             .setFooter("~pandabot")
             .setThumbnail(user.avatarURL)
           message.channel.sendEmbed(embed, "Requested by: <@"+message.author.id+">");
