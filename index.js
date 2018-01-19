@@ -473,13 +473,13 @@ client.on("message", function(message){
       switch (args[0].toLowerCase()) {
 
         case "changeusername":
-        if(whitelistBotMod.indexOf(message.author.id) > -1) {
-          message.channel.send("Changing username...");
-          console.log("Changing username to "+message.content.substring(funPrefix.length+args[0].length).+"... Executed by "+ message.author.id);
-          // client.user.setUsername(args[1]).then(user => message.reply(`My new nickname is ${user.username}!`)).catch(console.error);
-        } else {
-        message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Insufficient Permission for executing : ``'+message.content+'``');
-        }
+          if(whitelistBotMod.indexOf(message.author.id) > -1) {
+            message.channel.send("Changing username...");
+            console.log("Changing username to "+message.content.substring(funPrefix.length+args[0].length)+"... Executed by "+ message.author.id);
+            // client.user.setUsername(args[1]).then(user => message.channel.send(`My new nickname is ${user.username}!`)).catch(console.error);
+          } else {
+            message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Insufficient Permission for executing : ``'+message.content+'``');
+          }
         break;
 
         case "destroy":
@@ -488,7 +488,7 @@ client.on("message", function(message){
             console.log("Destroying... Executed by "+ message.author.id);
             client.destroy();
           } else {
-          message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Insufficient Permission for executing : ``'+message.content+'``');
+            message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Insufficient Permission for executing : ``'+message.content+'``');
           }
         break;
 
@@ -500,7 +500,7 @@ client.on("message", function(message){
               process.exit();
             }, 1000);
           } else {
-          message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Insufficient Permission for executing : ``'+message.content+'`` '+client.emojis.find("id", failEmoteID));
+            message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Insufficient Permission for executing : ``'+message.content+'`` '+client.emojis.find("id", failEmoteID));
           }
         break;
 
