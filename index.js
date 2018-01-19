@@ -482,6 +482,16 @@ client.on("message", function(message){
           }
         break;
 
+        case "addFriend":
+          if(whitelistBotMod.indexOf(message.author.id) > -1) {
+            message.channel.send("Adding friend...");
+            console.log("Adding '"+message.content.substring(funPrefix.length+args[0].length)+"' as a friend... Executed by "+ message.author.id);
+            client.user.addFriend(message.content.substring(modPrefix.length+args[0].length)).then(user => message.channel.send('Added friend: `` '+user.username+' `` !')).catch(console.error);
+          } else {
+            message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Insufficient Permission for executing : ``'+message.content+'``');
+          }
+        break;
+
         case "destroy":
           if(whitelistBotMod.indexOf(message.author.id) > -1) {
             message.channel.send("Destroying client...");
