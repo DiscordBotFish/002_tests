@@ -141,6 +141,21 @@ client.on("message", function(message){
     // return;
   }//
 
+  const fs = require("fs");
+  let points = JSON.parse(fs.readFileSync("./points.json", "utf8"));
+
+  if (!message.author.bot){
+    if (!points[message.author.id]) points[message.author.id] = {
+      points: 0,
+      level: 0
+    };
+    points[message.author.id].points++;
+
+    // And then, we save the edited file.
+    fs.writeFile("./points.json", JSON.stringify(points), (err) => {
+      if (err) console.error(err)
+  });}
+
                   // --> WHITELISTS <--
                   var whitelistBotMod = ["244126983489978368", "393675055139258380"];
                   // me, mybot
@@ -251,7 +266,7 @@ client.on("message", function(message){
       break;
 
       case "bs":
-      case "botstats":
+      case "bots":
         message.delete();
         message.channel.send("**:robot: Bot stats :robot:**\n\n"+" Server count: "+client.guilds.size.toLocaleString()+"\n"+" Online since: "+startTimeYear+"-"+startTimeMonth+"-"+startTimeDay+"   ("+startTimeHours+":"+startTimeMinutes+":"+startTimeSeconds+" (UTC))");
       break;
