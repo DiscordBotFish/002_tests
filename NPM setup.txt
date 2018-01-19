@@ -1,4 +1,5 @@
-npm init 
+npm init
 npm install discord.js --save
 npm install weather-js
+npm install quick.db
 node index

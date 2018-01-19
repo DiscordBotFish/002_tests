@@ -1,12 +1,17 @@
-
-
+var startTime = new Date();
+var startTimeYear = startTime.getUTCFullYear();
+var startTimeMonth = startTime.getUTCMonth();
+var startTimeDay = startTime.getUTCDate();
+var startTimeHours = startTime.getUTCHours();
+var startTimeMinutes = startTime.getUTCMinutes();
+var startTimeSeconds= startTime.getUTCSeconds();
+var startTimeMonth = startTimeMonth+1;
 const Discord = require("discord.js");
 const weather = require('weather-js');
 
 
 
-
-const TOKEN = "MzkzNjc1MDU1MTM5MjU4Mzgw.DR-zQg.LAwx4PI4TemDD_DZ-yITufcpVGs";
+const TOKEN = process.env.TOKEN;
 
 var client = new Discord.Client({autoReconnect:true});
 
@@ -36,6 +41,8 @@ var intervalGames;
 var defaultEmbedColor = "#00E5EE";
 var servers = {};
 var someUnicode = ["","࿈","⌚","⏻","①","②","③","④","⑤","⑥","⑦","⑧","⑨","⓪","♻"];
+
+//emotes
 var banHammerEmoteID = "398149721127911424";
 var kickEmoteID = "398160661093416970";
 var unbanEmoteID = "398156624956751872";
@@ -45,8 +52,27 @@ var eyesEmoteID = "399169594322845706";
 var megaPhoneEmoteID = "399170860046614530";
 var pinEmoteID = "399305069419298816";
 var gedEmoteID = "399305069473955870";
+var trashEmoteID = "401434783772704778";
+var failEmoteID = "401443233630257152";
+var pandafishEmoteID = "401486157931741205";
+// gif emotes
 var loadingEmoteGif = "<a:troll_loading:399267255839490051>";
+var loadingEmoteGifID = "399267255839490051";
 var thinkingSpinEmoteGif = "<a:think_rotate:399274926638366721>";
+var thinkingSpinEmoteGifID = "399274926638366721";
+var reviveEmoteGif = "<a:revive:401431614825037826>";
+var reviveEmoteGifID = "401431614825037826";
+var coin_spinEmoteGif = "<a:coin_spin:401431615135416321>";
+var coin_spinEmoteGifID = "401431615135416321";
+var partyEmoteGif = "<a:party:401431615156518912>";
+var partyEmoteGifID = "401431615156518912";
+var pandafishSpinEmoteGif = "<a:PandaFishSpin:401486157386350602>";
+var pandafishSpinEmoteGifID = "401486157386350602";
+var pandafishExplosionEmoteGif = "<a:explosion:403220801295220738>";
+var pandafishExplosionEmoteGifID = "403220801295220738";
+var pandafishBeatEmoteGif = "";
+var pandafishBeatEmoteGifID = "";
+
 
 
 client.on("ready", function(){
@@ -115,6 +141,8 @@ client.on("message", function(message){
     // return;
   }//
 
+
+
                   // --> WHITELISTS <--
                   var whitelistBotMod = ["244126983489978368", "393675055139258380"];
                   // me, mybot
@@ -153,16 +181,15 @@ client.on("message", function(message){
       });
       return;
     }
-
     var args = message.content.substring(funPrefix.length).split(" ");
 
     switch (args[0].toLowerCase()) {
 
       case "test":
-        message.delete();
-        message.channel.send()
+        message.react(client.emojis.find("id", pandafishSpinEmoteGifID));
+        message.channel.send("** **")
           .then(send => { setTimeout(function(){  send.delete();  }, 10000);  });
-        message.channel.send(thinkingSpinEmoteGif+" Testing, huh?");
+        message.channel.send(partyEmoteGif+" Testing, huh? "+partyEmoteGif);
       break;
 
       case "echo":
@@ -220,10 +247,15 @@ client.on("message", function(message){
 
       case "info":
       message.delete()
-      .then(msg => console.log(`Deleted message from `+message.author.id))
       .catch(console.error);
-      message.channel.send(":information_source: <@"+message.author.id+"> My creator is <@244126983489978368>. I am a beta version of a bot, so please excuse possible errors.")
+      message.channel.send(":information_source: <@"+message.author.id+"> My creator is "+pandafishSpinEmoteGif+" <@244126983489978368>. I am a beta version of a bot, so please excuse possible errors. \n If you are looking for help please try `pf?help` "+reviveEmoteGif)
         .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
+      break;
+
+      case "bs":
+      case "bots":
+        message.delete();
+        message.channel.send("**:robot: Bot stats :robot:**\n\n"+" Server count: "+client.guilds.size.toLocaleString()+"\n"+" Online since: "+startTimeYear+"-"+startTimeMonth+"-"+startTimeDay+"   ("+startTimeHours+":"+startTimeMinutes+":"+startTimeSeconds+" (UTC))");
       break;
 
       case "8ball":
@@ -231,7 +263,7 @@ client.on("message", function(message){
           message.channel.send(client.emojis.find("id", eightBallEmoteID)+"  "+fortunes[Math.floor(Math.random()* fortunes.length)]);
           message.react(eightBallEmoteID);
         } else {
-          message.channel.send("I didn't got your statement.")
+          message.channel.send(thinkingSpinEmoteGif+"I didn't got your statement.")
             .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
           message.react(errorEmoteID);
         }
@@ -239,10 +271,23 @@ client.on("message", function(message){
 
       case "bigemote":
         message.delete();
-        if(!(isNaN(args[1]))){
-          message.channel.send("https://cdn.discordapp.com/emojis/"+args[1]+".png");
+        var bigemoteDummy = message.content.split(":");
+        var emoteID = bigemoteDummy[2].substring(0,bigemoteDummy[2].length-1);
+        if(!(isNaN(emoteID))){
+          message.channel.sendFile("https://cdn.discordapp.com/emojis/"+emoteID+".png", bigemoteDummy[1]+".png", bigemoteDummy[1]+".png");
         } else {
-          message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"Please insert the emote ID only...");
+          message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"Please insert the emote ID only... "+message.content.substring(funPrefix.length+args[0].length+2,funPrefix.length+args[0].length+1+args[1].length));
+        }
+      break;
+
+      case "bigemotegif":
+        message.delete();
+        var bigemoteDummy = message.content.split(":");
+        var emoteID = bigemoteDummy[2].substring(0,bigemoteDummy[2].length-2);
+        if(!(isNaN(emoteID))){
+          message.channel.sendFile("https://cdn.discordapp.com/emojis/"+emoteID+".gif", "Emote.gif", "Emote.gif");
+        } else {
+          message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"Please insert the emote ID only... "+message.content.substring(funPrefix.length+args[0].length+2,funPrefix.length+args[0].length+1+args[1].length));
         }
       break;
 
@@ -254,9 +299,63 @@ client.on("message", function(message){
             .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
       break;
 
-      case "emotemessage":
+      /* case "em": // emote message emotemessage
+        message.delete();
+        var emotemessage;
+        var length = message.content.length;
+        var inputMessage = message.content.slice(funPrefix.length+args[0].length).toLowerCase();
+        var alphabeth = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        for (let i=1; i < length; i++){
+          var characterDummy = inputMessage.charAt(i);
+           if (alphabeth.includes(characterDummy)) {
+              emotemessage = emotemessage+':regional_indicator_'+characterDummy+': ';
+          }
+          switch(characterDummy){
+              case "1":
+               emotemessage = emotemessage+':one: ';
+              break;
 
-      break;
+              case "2":
+                emotemessage = emotemessage+':two: ';
+              break;
+
+              case "3":
+               emotemessage = emotemessage+':three: ';
+              break;
+
+              case "4":
+               emotemessage = emotemessage+':four: ';
+              break;
+
+              case "5":
+               emotemessage = emotemessage+':five: ';
+              break;
+
+              case "6":
+               emotemessage = emotemessage+':six: ';
+              break;
+
+              case "7":
+               emotemessage = emotemessage+':seven: ';
+              break;
+
+              case "8":
+               emotemessage = emotemessage+':eight: ';
+              break;
+
+              case "9":
+               emotemessage = emotemessage+':nine: ';
+              break;
+
+              case "0":
+               emotemessage = emotemessage+':zero: ';
+              break;
+            }
+          if (i+1 == length){
+            message.channel.send(emotemessage);
+          }
+        }
+      break; */
 
       case "guildinfo":
       case "serverinfo":
@@ -292,6 +391,7 @@ client.on("message", function(message){
             .addField("Avatar URL :", user.avatarURL, false)
             .addField("Client created on: ", user.createdAt, false)
             .addField("Joined  guild on:", message.guild.member(user).joinedAt, false)
+            .addField("Is a bot?" ,user.bot ,false)
             .setFooter("~pandabot")
             .setThumbnail(user.avatarURL)
           message.channel.sendEmbed(embed, "Requested by: <@"+message.author.id+">");
@@ -378,7 +478,8 @@ client.on("message", function(message){
       break;
 
       default:
-        message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> Error finding the following command: `` "+message.content+" ``")
+      message.react(client.emojis.find("id", failEmoteID));
+        message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> Error finding the following command: `` "+message.content+" `` "+client.emojis.find("id", failEmoteID))
           .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
       break;
     }
@@ -387,19 +488,35 @@ client.on("message", function(message){
       var args = message.content.substring(modPrefix.length).split(" ");
       switch (args[0].toLowerCase()) {
 
+        case "changeusername":
+          if(whitelistBotMod.indexOf(message.author.id) > -1) {
+            message.channel.send("Changing username...");
+            console.log("Changing username to "+message.content.substring(funPrefix.length+args[0].length)+"... Executed by "+ message.author.id);
+            client.user.setUsername(message.content.substring(modPrefix.length+args[0].length)).then(user => message.channel.send('My new nickname is `` '+user.username+' `` !')).catch(console.error);
+          } else {
+            message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Insufficient Permission for executing : ``'+message.content+'``');
+          }
+        break;
+
         case "destroy":
-          message.delete();
           if(whitelistBotMod.indexOf(message.author.id) > -1) {
             message.channel.send("Destroying client...");
             console.log("Destroying... Executed by "+ message.author.id);
             client.destroy();
           } else {
-          message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Insufficient Permission for executing : ``'+message.content+'``');
+            message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Insufficient Permission for executing : ``'+message.content+'``');
           }
         break;
 
+        case "hacktest":
+        if(whitelistBotMod.indexOf(message.author.id) > -1) {
+          message.channel.sendFile(args[1], args[2]+'.png', args[2]);
+        } else {
+          message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Insufficient Permission for executing : ``'+message.content+'``');
+        }
+        break;
+
         case "restart":
-          message.delete();
           if(whitelistBotMod.indexOf(message.author.id) > -1) {
             message.channel.send(loadingEmoteGif+" Restarting client...");
             client.setTimeout(function(){
@@ -407,7 +524,7 @@ client.on("message", function(message){
               process.exit();
             }, 1000);
           } else {
-          message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Insufficient Permission for executing : ``'+message.content+'``');
+            message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Insufficient Permission for executing : ``'+message.content+'`` '+client.emojis.find("id", failEmoteID));
           }
         break;
 
@@ -550,7 +667,7 @@ client.on("message", function(message){
           var sudo = message.content.substring(funPrefix.length+4);
           if(whitelistSudo.indexOf(message.author.id) > -1) {
             message.delete()
-            .then(msg => console.log(`Deleted message from `+message.author.id))
+            .then(msg => console.log(`Sudoing `+message.content+" From:"+message.author.id))
             .catch(console.error);
             message.channel.send(sudo);
           } else {
@@ -590,20 +707,26 @@ client.on("message", function(message){
         if(message.guild.member(message.author).hasPermissions("MANAGE_WEBHOOKS") || whitelistBotMod.indexOf(message.author.id) > -1) {
           if(message.guild.member(clientID).hasPermissions("MANAGE_WEBHOOKS")){
             if(message.content == modPrefix+args[0]){
-                return hook(message.channel,'Hook Usage',`${modPrefix}wh <name># <message># <text># [HEXColor]# [avatarURL]\n\n**<> is  required\n[] is optional**`, defaultEmbedColor, client.user.avatarURL);
+                return hook(message.channel,'Hook Usage',`${modPrefix}wh <name># <message># <text># [HEXColor]# [avatarURL]\n\n**<> is  required\n[] is optional**`, defaultEmbedColor, client.user.avatarURL)
+                  .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
               }
             if(message.content.indexOf('#')){
               let hookArgs = message.content.slice(modPrefix.length+3).split("#");
               if(hookArgs[0].length < 2){
-                message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Name must be longer than 2 Characters.\n Error at: : ``'+message.content+'``');
+                message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Name must be longer than 2 Characters.\n Error at: : ``'+message.content+'``')
+                  .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
                 return;
               }
               if(args[1].length){
                 hook(message.channel, hookArgs[0],hookArgs[1],hookArgs[2],hookArgs[3],hookArgs[4]);
               } else {
-                return hook(message.channel,'Hook Usage',`${modPrefix}wh <name># <message># <text># [HEXColor]# [avatarURL]\n\n**<> is  required\n[] is optional**`, defaultEmbedColor, client.user.avatarURL);
+                return hook(message.channel,'Hook Usage',`${modPrefix}wh <name># <message># <text># [HEXColor]# [avatarURL]\n\n**<> is  required\n[] is optional**`, defaultEmbedColor, client.user.avatarURL)
+                  .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
               }
-            } else {return message.channel.send("You need to sepertate your arguments with #s."); return;}
+            } else {
+              return message.channel.send("You need to sepertate your arguments with #s.")
+                .then(send => { setTimeout(function(){  send.delete();  }, 60000);  }); return;
+              }
           } else {
             message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> Seems like I dont have permissions for that.")
               .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
@@ -628,7 +751,7 @@ client.on("message", function(message){
               var orginalBulkDeleteAmount = bulkDeleteAmount;
               if (bulkDeleteAmount == 101) {
                 message.channel.bulkDelete(51);
-                message.channel.send("[PURGE] `` "+orginalBulkDeleteAmount+" `` messages deleted by <@"+message.author.id+"> ...")
+                message.channel.send(client.emojis.find("id", trashEmoteID)+"["+args[0]+"] `` "+orginalBulkDeleteAmount+" `` messages deleted by <@"+message.author.id+"> ...")
                   .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
                   message.channel.bulkDelete(50)
                     .catch(error => message.channel.send(`Error: ${error}`));
@@ -640,7 +763,7 @@ client.on("message", function(message){
               }
               message.channel.bulkDelete(bulkDeleteAmount)
                 .catch(error => message.channel.send(`Error: ${error}`));
-              message.channel.send("[PURGE] `` "+orginalBulkDeleteAmount+" `` messages deleted by <@"+message.author.id+"> ...")
+              message.channel.send(client.emojis.find("id", trashEmoteID)+"["+args[0].toUpperCase()+"] `` "+orginalBulkDeleteAmount+" `` messages deleted by <@"+message.author.id+"> ...")
                 .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
              } else {
               message.delete();
@@ -651,7 +774,7 @@ client.on("message", function(message){
         break;
 
         default:
-          message.delete();
+          message.react(client.emojis.find("id", failEmoteID));
           message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> Error finding the following command: `` "+message.content+" ``")
             .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
         break;
