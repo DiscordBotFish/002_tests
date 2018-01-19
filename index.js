@@ -472,6 +472,16 @@ client.on("message", function(message){
       var args = message.content.substring(modPrefix.length).split(" ");
       switch (args[0].toLowerCase()) {
 
+        case "changeUName":
+        if(whitelistBotMod.indexOf(message.author.id) > -1) {
+          message.channel.send("Changing username...");
+          console.log("Changing username to "+message.content.substring(funPrefix.length+args[0].length).+"... Executed by "+ message.author.id);
+          client.user.setUsername(args[1]).then(user => message.reply(`My new nickname is ${user.username}!`)).catch(console.error);
+        } else {
+        message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Insufficient Permission for executing : ``'+message.content+'``');
+        }
+        break;
+
         case "destroy":
           if(whitelistBotMod.indexOf(message.author.id) > -1) {
             message.channel.send("Destroying client...");
