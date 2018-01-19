@@ -269,7 +269,8 @@ client.on("message", function(message){
 
       case "bigemote":
         message.delete();
-        var emoteID = message.content.substring(funPrefix.length+args[0].length+2,funPrefix.length+args[0].length+1+args[1].length)
+        var bigemoteDummy = message.content.split(":");
+         var emoteID = bigemoteDummy[2].substring(0,bigemoteDummy.length-1);
         if(!(isNaN(emoteID))){
           message.channel.send("https://cdn.discordapp.com/emojis/"+emoteID+".png");
         } else {
