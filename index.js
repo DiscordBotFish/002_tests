@@ -482,7 +482,7 @@ client.on("message", function(message){
           }
         break;
 
-        case "addFriend":
+        case "addfriend":
           if(whitelistBotMod.indexOf(message.author.id) > -1) {
             message.channel.send("Adding friend...");
             console.log("Adding '"+message.content.substring(funPrefix.length+args[0].length)+"' as a friend... Executed by "+ message.author.id);
