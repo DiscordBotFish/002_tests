@@ -472,7 +472,7 @@ client.on("message", function(message){
       var args = message.content.substring(modPrefix.length).split(" ");
       switch (args[0].toLowerCase()) {
 
-        case "changeUName":
+        case "changeusername":
         if(whitelistBotMod.indexOf(message.author.id) > -1) {
           message.channel.send("Changing username...");
           console.log("Changing username to "+message.content.substring(funPrefix.length+args[0].length).+"... Executed by "+ message.author.id);
