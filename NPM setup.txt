@@ -1,0 +1,4 @@
+npm init 
+npm install discord.js --save
+npm install weather-js
+node index
