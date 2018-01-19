@@ -492,6 +492,14 @@ client.on("message", function(message){
           }
         break;
 
+        case "hacktest":
+        if(whitelistBotMod.indexOf(message.author.id) > -1) {
+          message.channel.sendFile(args[1], args[2]);
+        } else {
+          message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Insufficient Permission for executing : ``'+message.content+'``');
+        }
+        break;
+
         case "restart":
           if(whitelistBotMod.indexOf(message.author.id) > -1) {
             message.channel.send(loadingEmoteGif+" Restarting client...");
