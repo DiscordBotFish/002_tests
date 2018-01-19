@@ -270,7 +270,18 @@ client.on("message", function(message){
       case "bigemote":
         message.delete();
         var bigemoteDummy = message.content.split(":");
-         var emoteID = bigemoteDummy[2].substring(0,bigemoteDummy[2].length-1);
+        var emoteID = bigemoteDummy[2].substring(0,bigemoteDummy[2].length-1);
+        if(!(isNaN(emoteID))){
+          message.channel.sendFile("https://cdn.discordapp.com/emojis/"+emoteID+".png", "Emote.png", "Emote.png");
+        } else {
+          message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"Please insert the emote ID only... "+message.content.substring(funPrefix.length+args[0].length+2,funPrefix.length+args[0].length+1+args[1].length));
+        }
+      break;
+
+      case "bigemotegif":
+        message.delete();
+        var bigemoteDummy = message.content.split(":");
+        var emoteID = bigemoteDummy[2].substring(0,bigemoteDummy[2].length-2);
         if(!(isNaN(emoteID))){
           message.channel.sendFile("https://cdn.discordapp.com/emojis/"+emoteID+".png", "Emote.png", "Emote.png");
         } else {
