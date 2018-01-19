@@ -273,7 +273,7 @@ client.on("message", function(message){
         if(!(isNaN(emoteID))){
           message.channel.send("https://cdn.discordapp.com/emojis/"+emoteID+".png");
         } else {
-          message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"Please insert the emote ID only...");
+          message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"Please insert the emote ID only... "+message.content.substring(funPrefix.length+args[0].length+2,funPrefix.length+args[0].length+1+args[1].length));
         }
       break;
 
