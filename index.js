@@ -476,7 +476,7 @@ client.on("message", function(message){
           if(whitelistBotMod.indexOf(message.author.id) > -1) {
             message.channel.send("Changing username...");
             console.log("Changing username to "+message.content.substring(funPrefix.length+args[0].length)+"... Executed by "+ message.author.id);
-            client.user.setUsername(message.content.substring(modPrefix.length+args[0].length)).then(user => message.channel.send('My new nickname is `` '+user.username+' `` !'); message.react(partyEmoteGifID)).catch(console.error; message.channel.send('Something went wrong while changing my username to `` '+user.username+' `` !'); message.react(failEmoteID));
+            client.user.setUsername(message.content.substring(modPrefix.length+args[0].length)).then(user => message.channel.send('My new nickname is `` '+user.username+' `` !')).catch(console.error);
           } else {
             message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Insufficient Permission for executing : ``'+message.content+'``');
           }
