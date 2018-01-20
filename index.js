@@ -373,6 +373,7 @@ client.on("message", function(message){
           .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
       break;
 
+      case "userinfo":
       case "profile":
         var user;
         if (message.mentions.users.first()){
@@ -389,10 +390,10 @@ client.on("message", function(message){
             .addField("Avatar URL :", user.avatarURL, false)
             .addField("Client created on: ", user.createdAt, false)
             .addField("Joined  guild on:", message.guild.member(user).joinedAt, false)
-            .addField("Is a bot?" ,user.bot ,false)
+            .addField("Is a this user a bot?" ,user.bot ,false)
             .setFooter("~pandabot")
             .setThumbnail(user.avatarURL)
-          message.channel.sendEmbed(embed, "Requested by: <@"+message.author.id+">");
+          message.channel.send("Requested by: <@"+message.author.id+">", embed);
       break;
 
       case "avatar":
