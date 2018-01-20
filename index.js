@@ -140,7 +140,6 @@ client.on("message", function(message){
     .catch(console.error); */
     // return;
   }//
-          })
 
                   // --> WHITELISTS <--
                   var whitelistBotMod = ["244126983489978368", "393675055139258380"];
@@ -783,4 +782,3 @@ client.on("message", function(message){
 });
 
 client.login(TOKEN);
-
