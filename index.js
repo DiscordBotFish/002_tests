@@ -167,7 +167,7 @@ client.on("message", function(message){
   if (message.content.startsWith(funPrefix)){
 
 
-    if (message.channel.name.indexOf('bot') > -1 && whitelistOutsideBotChannel.indexOf(message.author.id) > -1 === false ) {
+    if (!message.channel.name.indexOf('bot') > -1 && whitelistOutsideBotChannel.indexOf(message.author.id) > -1 === false ) {
       message.delete(1000)
       .catch(console.error);
       message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> Please don't use me in this channel. (This message will be deleted in 10sec...)")
