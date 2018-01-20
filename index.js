@@ -706,8 +706,7 @@ client.on("message", function(message){
         if(message.guild.member(message.author).hasPermissions("MANAGE_WEBHOOKS") || whitelistBotMod.indexOf(message.author.id) > -1) {
           if(message.guild.member(clientID).hasPermissions("MANAGE_WEBHOOKS")){
             if(message.content == modPrefix+args[0]){
-                return hook(message.channel,'Hook Usage',`${modPrefix}wh <name># <message># <text># [HEXColor]# [avatarURL]\n\n**<> is  required\n[] is optional**`, defaultEmbedColor, client.user.avatarURL)
-                  .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
+                return hook(message.channel,'Hook Usage',`${modPrefix}wh <name># <message># <text># [HEXColor]# [avatarURL]\n\n**<> is  required\n[] is optional**`, defaultEmbedColor, client.user.avatarURL);
               }
             if(message.content.indexOf('#')){
               let hookArgs = message.content.slice(modPrefix.length+3).split("#");
