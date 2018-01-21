@@ -702,36 +702,38 @@ client.on("message", function(message){
         break;
 
         case "wh": //webhook
-        message.delete();
-        if(message.guild.member(message.author).hasPermissions("MANAGE_WEBHOOKS") || whitelistBotMod.indexOf(message.author.id) > -1) {
-          if(message.guild.member(clientID).hasPermissions("MANAGE_WEBHOOKS")){
-            if(message.content == modPrefix+args[0]){
-                return hook(message.channel,'Hook Usage',`${modPrefix}wh <name> # <message ># <text> # [HEXColor] # [avatarURL]\n\n**<> is  required\n[] is optional**`, defaultEmbedColor, client.user.avatarURL);
-              }
-            if(message.content.indexOf('#')){
-              let hookArgs = message.content.slice(modPrefix.length+3).split("#");
-              if(hookArgs[0].length < 2){
-                message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Name must be longer than 2 Characters.\n Error at: : ``'+message.content+'``')
-                  .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
-                return;
-              }
-              if(args[1].length){
-                hook(message.channel, hookArgs[0],hookArgs[1],hookArgs[2],hookArgs[3],hookArgs[4]);
+          message.delete();
+          if(message.guild){
+            if(message.guild.member(message.author).hasPermissions("MANAGE_WEBHOOKS", true) || whitelistBotMod.indexOf(message.author.id) > -1) {
+              if(message.guild.member(clientID).hasPermissions("MANAGE_WEBHOOKS", true)){
+                if(message.content == modPrefix+args[0]){
+                    return hook(message.channel,'Hook Usage',`${modPrefix}wh <name> # <message ># <text> # [HEXColor] # [avatarURL]\n\n**<> is  required\n[] is optional**`, defaultEmbedColor, client.user.avatarURL);
+                  }
+                if(message.content.indexOf('#')){
+                  let hookArgs = message.content.slice(modPrefix.length+3).split("#");
+                  if(hookArgs[0].length < 2){
+                    message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Name must be longer than 2 Characters.\n Error at: : ``'+message.content+'``')
+                      .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
+                    return;
+                  }
+                  if(args[1].length){
+                    hook(message.channel, hookArgs[0],hookArgs[1],hookArgs[2],hookArgs[3],hookArgs[4]);
+                  } else {
+                    return hook(message.channel,'Hook Usage',`${modPrefix}wh <name> # <message> # <text> # [HEXColor] # [avatarURL]\n\n**<> is  required\n[] is optional**`, defaultEmbedColor, client.user.avatarURL);
+                  }
+                } else {
+                  return message.channel.send("You need to sepertate your arguments with #s.")
+                    .then(send => { setTimeout(function(){  send.delete();  }, 60000);  }); return;
+                  }
               } else {
-                return hook(message.channel,'Hook Usage',`${modPrefix}wh <name> # <message> # <text> # [HEXColor] # [avatarURL]\n\n**<> is  required\n[] is optional**`, defaultEmbedColor, client.user.avatarURL);
+                message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> Seems like I dont have permissions for that.")
+                  .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
               }
             } else {
-              return message.channel.send("You need to sepertate your arguments with #s.")
-                .then(send => { setTimeout(function(){  send.delete();  }, 60000);  }); return;
-              }
-          } else {
-            message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> Seems like I dont have permissions for that.")
-              .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
+                message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Insufficient Permission for executing : ``'+message.content+'``')
+                  .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
+            }
           }
-        } else {
-            message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Insufficient Permission for executing : ``'+message.content+'``')
-              .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
-        }
         break;
 
         case "prune":
