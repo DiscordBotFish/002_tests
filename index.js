@@ -704,8 +704,8 @@ client.on("message", function(message){
         case "wh": //webhook
           message.delete();
           if(message.guild){
-            if(message.guild.member(message.author).hasPermissions("MANAGE_WEBHOOKS", true) || whitelistBotMod.indexOf(message.author.id) > -1) {
-              if(message.guild.member(clientID).hasPermissions("MANAGE_WEBHOOKS", true)){
+            if(message.guild.member(message.author).hasPermissions("MANAGE_MESSAGES") || whitelistBotMod.indexOf(message.author.id) > -1) {
+              if(message.guild.member(message.author).hasPermissions("MANAGE_MESSAGES")){
                 if(message.content == modPrefix+args[0]){
                     return hook(message.channel,'Hook Usage',`${modPrefix}wh <name> # <message ># <text> # [HEXColor] # [avatarURL]\n\n**<> is  required\n[] is optional**`, defaultEmbedColor, client.user.avatarURL);
                   }
