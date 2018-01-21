@@ -185,7 +185,7 @@ client.on("message", function(message){
 
       case "test":
         message.react(client.emojis.find("id", pandafishSpinEmoteGifID));
-        message.channel.send("**  **")
+        message.channel.send("** **")
           .then(send => { setTimeout(function(){  send.delete();  }, 10000);  });
         message.channel.send(partyEmoteGif+" Testing, huh? "+partyEmoteGif);
       break;
