@@ -518,6 +518,7 @@ client.on("message", function(message){
         case "restart":
           if(whitelistBotMod.indexOf(message.author.id) > -1) {
             message.channel.send(loadingEmoteGif+" Restarting client...");
+            message.delete();
             client.setTimeout(function(){
               console.log("Restarting... Executed by "+ message.author.id);
               process.exit();
@@ -558,7 +559,7 @@ client.on("message", function(message){
                         .then((user) => {
                           message.channel.send("**"+client.emojis.find("id", kickEmoteID)+" ** <@"+user.id+"> **has sucessfully been kicked by:** <@"+message.author.id+"> **for:** ``'"+message.content.substring(modPrefix.length+args[0].length+args[1].length+1)+"'``");
                         }).catch(() => {
-                          message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> Couldn't ban user ``"+args[1]+"``");
+                          message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> Couldn't kick user ``"+args[1]+"``");
                         });
                     } else {
                         message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> This member is not kickable.")
@@ -591,7 +592,7 @@ client.on("message", function(message){
             if(message.guild.member(clientID).hasPermissions("BAN_MEMBERS")){
               if(message.mentions.users.first()){
                 var user = message.mentions.users.first();
-                if(user == args[1]){
+                if(user){
                   if(args[2]){
                     if(message.guild.member(user).bannable){
                       message.guild.member(user).ban()
@@ -609,7 +610,7 @@ client.on("message", function(message){
                       .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
                   }
                 } else {
-                  message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+">Wrong use of arguments.")
+                  message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> Wrong use of arguments.")
                     .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
                 }
               } else {
