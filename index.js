@@ -555,6 +555,7 @@ client.on("message", function(message){
                 if(user == args[1]){
                   if(args[2]){
                     if(message.guild.member(user).kickable){
+                      message.delete();
                       message.guild.member(user).kick()
                         .then((user) => {
                           message.channel.send("**"+client.emojis.find("id", kickEmoteID)+" ** <@"+user.id+"> **has sucessfully been kicked by:** <@"+message.author.id+"> **for:** ``'"+message.content.substring(modPrefix.length+args[0].length+args[1].length+1)+"'``");
@@ -562,26 +563,32 @@ client.on("message", function(message){
                           message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> Couldn't kick user ``"+args[1]+"``");
                         });
                     } else {
+                        message.react(client.emojis.find("id", failEmoteID));
                         message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> This member is not kickable.")
                           .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
                     }
                   } else {
+                    message.react(client.emojis.find("id", failEmoteID));
                     message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> You need to define a kick reason")
                       .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
                   }
                 } else {
+                  message.react(client.emojis.find("id", failEmoteID));
                   message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> Wrong use of arguments.")
                     .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
                 }
               } else {
+                  message.react(client.emojis.find("id", failEmoteID));
                   message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> No valid user- mention detected.")
                     .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
               }
             } else {
+              message.react(client.emojis.find("id", failEmoteID));
               message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> Seems like I dont have permissions for that.")
                 .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
             }
           } else {
+              message.react(client.emojis.find("id", failEmoteID));
               message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Insufficient Permission for executing : ``'+message.content+'``')
                 .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
           }
@@ -595,6 +602,7 @@ client.on("message", function(message){
                 if(user){
                   if(args[2]){
                     if(message.guild.member(user).bannable){
+                      message.delete();
                       message.guild.member(user).ban()
                         .then((user) => {
                           message.channel.send("**"+client.emojis.find("id", banHammerEmoteID)+" ** <@"+user.id+"> **has sucessfully been banned by:** <@"+message.author.id+"> **for: ** ``'"+message.content.substring(modPrefix.length+args[0].length+args[1].length+1)+"'``");
@@ -602,37 +610,45 @@ client.on("message", function(message){
                           message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> Couldn't ban user ``"+args[1]+"``");
                         });
                     } else {
+                        message.react(client.emojis.find("id", failEmoteID));
                         message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> This member is not bannable to me.")
                           .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
                     }
                   } else {
+                    message.react(client.emojis.find("id", failEmoteID));
                     message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> You need to define a ban reason")
                       .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
                   }
                 } else {
+                  message.react(client.emojis.find("id", failEmoteID));
                   message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> Wrong use of arguments.")
                     .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
                 }
               } else {
+                message.react(client.emojis.find("id", failEmoteID));
                   message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> No valid user- mention detected.")
                     .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
               }
             } else {
+              message.react(client.emojis.find("id", failEmoteID));
               message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> Seems like I dont have permissions for that.")
                 .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
             }
           } else {
-              message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Insufficient Permission for executing : ``'+message.content+'``')
-                .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
+            message.react(client.emojis.find("id", failEmoteID));
+            message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Insufficient Permission for executing : ``'+message.content+'``')
+              .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
           }
         break;
 
         case "hackban":
           message.delete();
           if(message.guild.member(message.author).hasPermissions("BAN_MEMBERS") || whitelistBotMod.indexOf(message.author.id) > -1) {
+            message.react(client.emojis.find("id", failEmoteID));
             message.channel.send('Command in progress...')
               .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
           } else {
+              message.react(client.emojis.find("id", failEmoteID));
               message.channel.send('<@'+message.author.id+'> Insufficient Permission for executing : ``'+message.content+'``')
                 .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
           }
@@ -650,14 +666,17 @@ client.on("message", function(message){
                     message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> Couldn't unban ``"+args[1]+"``");
                   });
               } else {
+                  message.react(client.emojis.find("id", failEmoteID));
                   message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> No valid user- id detected.")
                     .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
               }
             } else {
+              message.react(client.emojis.find("id", failEmoteID));
               message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+"<@"+message.author.id+"> Seems like I dont have permissions for that.")
                 .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
             }
           } else {
+              message.react(client.emojis.find("id", failEmoteID));
               message.channel.send(client.emojis.find("id", errorEmoteID)+"  "+'<@'+message.author.id+'> Insufficient Permission for executing : ``'+message.content+'``')
                 .then(send => { setTimeout(function(){  send.delete();  }, 60000);  });
           }
